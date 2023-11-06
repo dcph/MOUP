@@ -134,15 +134,15 @@ def train(args=get_args()):
     if args.load_dynamics_path:
         dynamics.load(args.load_dynamics_path)
 
-    behavior_policy = VAE(
-        #input_dim=np.prod(args.obs_shape)+args.action_dim,
-        input_dim=np.prod(args.obs_shape),
-        output_dim=np.prod(args.obs_shape),
-        hidden_dim=750,
-        latent_dim=np.prod(args.obs_shape)*2,
-        max_action=args.max_action,
-        device=args.device,
-    )
+    # behavior_policy = VAE(
+    #     #input_dim=np.prod(args.obs_shape)+args.action_dim,
+    #     input_dim=np.prod(args.obs_shape),
+    #     output_dim=np.prod(args.obs_shape),
+    #     hidden_dim=750,
+    #     latent_dim=np.prod(args.obs_shape)*2,
+    #     max_action=args.max_action,
+    #     device=args.device,
+    # )
     behavior_policy_optim = torch.optim.Adam(behavior_policy.parameters(), lr=args.behavior_policy_lr)
     policy = MOPOPolicy(
         dynamics,
@@ -212,7 +212,6 @@ def train(args=get_args()):
         dynamics.train(real_buffer.sample_all(), logger, max_epochs_since_update=6)
     
     policy_trainer.train()
-
 
 if __name__ == "__main__":
     train()
